@@ -1,0 +1,19 @@
+﻿We have a page where the user can choose to live-follow an auction. 
+If someone places a bid on the article, the user will immediately be notified with a toast message.
+
+Operations:
+
+- Follow auction: for each auction we keep track of the connection IDs of the user following it
+- Place bid: when someone places a bid, we inform all follower of the auction (except the bidder) that there is a new bid
+
+Dictionary:
+{
+    "auctionNr", [list_of_connection_ids]
+}
+
+
+Steps:
+Create cloud service on old portal
+Create Azure cache preview on new portal
+Create Cloud Service Web Role project in VS
+Install packages SignalR, SignalRRedis and StackExchange.Redis
