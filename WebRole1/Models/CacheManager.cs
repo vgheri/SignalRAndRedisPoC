@@ -20,9 +20,9 @@ namespace WebRole1.Models
                 if (connection == null)
                 {
                     try
-                    {
+                    {                        
                         connection = ConnectionMultiplexer.Connect(
-                                        @"signalrandredispoc.redis.cache.windows.net,ssl=true,password=");
+                                        @"signalrandredispoc.redis.cache.windows.net,ssl=true,password=9oW/TxiW4zpH1LvUo4fkpt1fOCIfWSBxmapFfVhDK/A=");
                     }
                     catch (Exception)
                     {

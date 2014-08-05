@@ -9,7 +9,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta id="metaContentLanguage" http-equiv="Content-Language" content="fr">
     <title>TOP Terrarium mit 2 Leopardengeckos à Triengen acheter sur ricardo.ch
-</title>
+    </title>
     <meta name="description" content="Prix de départ:  CHF 950.00 | Prix d&#39;achat direct:  CHF 1&#39;500.00 | TOP Terrarium mit 2 Leopardengeckos à Triengen | Etat de l’article: D&#39;occasion | Acheter TOP Terrarium mit 2 Leopardengeckos en ligne sur ricardo.ch">
     <meta name="keywords">
     <meta id="metaRobots" name="robots" content="index, follow">
@@ -44,23 +44,51 @@
     <script src="~/signalr/hubs"></script>
     <script type="text/javascript" language="javascript">
         $(document).ready(function () {
+            // hide alert message
+            $(".alert-success").hide();
+
             // Reference the auto-generated proxy for the hub.  
             var auction = $.connection.auctionHub;
+
             // Create a function that the hub can call back to display messages.
             auction.client.notifyBidPlaced = function (amount) {
                 // Add the message to the page. 
-                alert('A new bid of ' + amount + ' has been placed on this auction.');
+                var self = $(".alert-success");                
+                var message = 'A new bid of ' + amount + ' has been placed on this auction. '+ "\n";
+                autoClosingAlert(self, 5000, message);
             };
+
+            auction.client.followedAuction = function(customerId, auctionNr){
+                var self = $(".alert-success");                
+                var message = 'A new customer ' + customerId + ' follow the auction ' + auctionNr + "\n";
+                autoClosingAlert(self, 5000, message);
+            }
+
+            function autoClosingAlert(selector, delay, message) {
+                
+                selector.append(message);
+                selector.show();                
+                window.setTimeout(function() {                     
+                    selector.hide(); 
+                    selector.empty();
+                }, delay);
+            }
+
             // Start the connection.
             $.connection.hub.start()
                 .done(function() {
                     $('#it_btnFollow').click(function() {
                         auction.server.followAuction();
                     });
+                    $('#it_btnBid').click(function() {
+                        var amount = $("#it_maxBid").val();
+                        auction.client.notifyBidPlaced(amount);
+                        auction.server.bidAuction(amount);
+                    });
                 })
                 .fail(function(err) {
                     alert(err);
-            });
+                });
         });
     </script>
 </head>
@@ -176,26 +204,26 @@
             </section>
         </header>
         <script type="text/javascript">
-    /* Adapt new Markup and Styling for Search Form */
-    $('#FormNav').addClass('form-inline');
-$('#txtSearch').wrapAll('<div class="btn-group" />');
-$('#FormNav .btn-group').append('<a id="FormNavCategories"class="btn dropdown-toggle" data-toggle="dropdown" href="#">Action<span class="caret"></span></a><ul id="newcatselect" class="dropdown-menu"></ul>');
-$('.n_SearchButt').addClass('btn btn-primary').appendTo('#FormNav .btn-group');
-$('#CategoryAndLevel option').each(function(event) {
-    $('#newcatselect').append('<li><a data-catid="'+$(this).val()+'" href="#">'+$(this).html()+'</a></li>');
-});
-$('#FormNavCategories').html($("#CategoryAndLevel option:selected").text()+' <span class="caret"></span>');
-$('#FormNavCategories').attr('data-catid',$("#CategoryAndLevel option:selected").val());
-var currentCatID = $("#CategoryAndLevel option:selected").val();
-$('#CategoryAndLevel').remove();
-$('#FormNav').prepend('<input type="hidden" value="'+currentCatID+'" name="CategoryAndLevel" id="CategoryAndLevel">');
-$('.n_SearchButt').appendTo($('#CatSelect'));
-$('#newcatselect a').click(function(event) {
-    $('#FormNavCategories').html($(this).text()+' <span class="caret"></span>');
-    $("#CategoryAndLevel").val($(this).data('catid'));
-});
+            /* Adapt new Markup and Styling for Search Form */
+            $('#FormNav').addClass('form-inline');
+            $('#txtSearch').wrapAll('<div class="btn-group" />');
+            $('#FormNav .btn-group').append('<a id="FormNavCategories"class="btn dropdown-toggle" data-toggle="dropdown" href="#">Action<span class="caret"></span></a><ul id="newcatselect" class="dropdown-menu"></ul>');
+            $('.n_SearchButt').addClass('btn btn-primary').appendTo('#FormNav .btn-group');
+            $('#CategoryAndLevel option').each(function(event) {
+                $('#newcatselect').append('<li><a data-catid="'+$(this).val()+'" href="#">'+$(this).html()+'</a></li>');
+            });
+            $('#FormNavCategories').html($("#CategoryAndLevel option:selected").text()+' <span class="caret"></span>');
+            $('#FormNavCategories').attr('data-catid',$("#CategoryAndLevel option:selected").val());
+            var currentCatID = $("#CategoryAndLevel option:selected").val();
+            $('#CategoryAndLevel').remove();
+            $('#FormNav').prepend('<input type="hidden" value="'+currentCatID+'" name="CategoryAndLevel" id="CategoryAndLevel">');
+            $('.n_SearchButt').appendTo($('#CatSelect'));
+            $('#newcatselect a').click(function(event) {
+                $('#FormNavCategories').html($(this).text()+' <span class="caret"></span>');
+                $("#CategoryAndLevel").val($(this).data('catid'));
+            });
             /* Adapt new Markup and Styling for Search Form -- END --*/
-  </script>
+        </script>
         <!-- END HEADER-->
         <form name="Form1" method="post" action="~/Content/Ricardo_files/Ricardo.htm" id="Form1">
             <div>
@@ -217,8 +245,8 @@ $('#newcatselect a').click(function(event) {
                         theForm.submit();
                     }
                 }
-            //]]>
-</script>
+                //]]>
+            </script>
 
 
             <div>
@@ -228,6 +256,7 @@ $('#newcatselect a').click(function(event) {
 
             <!-- V. 2.0.0 FR -->
             <article class="hproduct">
+                <div id="alert_auctionfollow" class="alert alert-success" role="alert"></div>
                 <nav id="breadcrump">
                     <span id="BreadCrump1">
                         <ul class="breadcrumb">
@@ -249,9 +278,9 @@ $('#newcatselect a').click(function(event) {
 
                 <hgroup>
                     <h1 id="ArticleTitle1" class="fn">TOP Terrarium mit 2 Leopardengeckos
-</h1>
+                    </h1>
                     <h2 id="ArticleSubtitle1">1 Weibchen, 1 Männchen, inkl. allem Zubehör
-</h2>
+                    </h2>
 
                 </hgroup>
                 <section id="images">
@@ -516,23 +545,23 @@ $('#newcatselect a').click(function(event) {
 
                     <!-- Google Tag Manager Push -->
                     <script type="text/javascript">	
-    $(document).ready(function(){
-        dataLayer.push(
-            { 'event': 'Success-NotHighestBid', 
-                'tdChecksum':	'{tdChecksum}',
-                'ArticleId': qxlInfo.get_ArticleID,
-                'buyId':		'{buyID}', 
-                'oderValue':  '{orderValue}',
-                'language' : (qxlVars.is_french?2:1),
-                'catgeorie1' : ( typeof qxlInfo != "undefined" && typeof qxlInfo.get_CategorieTree != "undefined" && $.isArray(qxlInfo.get_CategorieTree) && qxlInfo.get_CategorieTree[0] ? qxlInfo.get_CategorieTree[0] : '') ,
-                'catgeorie2' : ( typeof qxlInfo != "undefined" && typeof qxlInfo.get_CategorieTree != "undefined" && $.isArray(qxlInfo.get_CategorieTree) && qxlInfo.get_CategorieTree[1] ? qxlInfo.get_CategorieTree[1] : '') ,
-                'catgeorie3' : ( typeof qxlInfo != "undefined" && typeof qxlInfo.get_CategorieTree != "undefined" && $.isArray(qxlInfo.get_CategorieTree) && qxlInfo.get_CategorieTree[2] ? qxlInfo.get_CategorieTree[2] : '') ,
-                'catgeorie4' : ( typeof qxlInfo != "undefined" && typeof qxlInfo.get_CategorieTree != "undefined" && $.isArray(qxlInfo.get_CategorieTree) && qxlInfo.get_CategorieTree[3] ? qxlInfo.get_CategorieTree[3] : '') ,
-                'catgeorie5' : ( typeof qxlInfo != "undefined" && typeof qxlInfo.get_CategorieTree != "undefined" && $.isArray(qxlInfo.get_CategorieTree) && qxlInfo.get_CategorieTree[4] ? qxlInfo.get_CategorieTree[4] : '') ,
-                'pageName' : 'ArticlePage'
-            });	
-    });		
-</script>
+                        $(document).ready(function(){
+                            dataLayer.push(
+                                { 'event': 'Success-NotHighestBid', 
+                                    'tdChecksum':	'{tdChecksum}',
+                                    'ArticleId': qxlInfo.get_ArticleID,
+                                    'buyId':		'{buyID}', 
+                                    'oderValue':  '{orderValue}',
+                                    'language' : (qxlVars.is_french?2:1),
+                                    'catgeorie1' : ( typeof qxlInfo != "undefined" && typeof qxlInfo.get_CategorieTree != "undefined" && $.isArray(qxlInfo.get_CategorieTree) && qxlInfo.get_CategorieTree[0] ? qxlInfo.get_CategorieTree[0] : '') ,
+                                    'catgeorie2' : ( typeof qxlInfo != "undefined" && typeof qxlInfo.get_CategorieTree != "undefined" && $.isArray(qxlInfo.get_CategorieTree) && qxlInfo.get_CategorieTree[1] ? qxlInfo.get_CategorieTree[1] : '') ,
+                                    'catgeorie3' : ( typeof qxlInfo != "undefined" && typeof qxlInfo.get_CategorieTree != "undefined" && $.isArray(qxlInfo.get_CategorieTree) && qxlInfo.get_CategorieTree[2] ? qxlInfo.get_CategorieTree[2] : '') ,
+                                    'catgeorie4' : ( typeof qxlInfo != "undefined" && typeof qxlInfo.get_CategorieTree != "undefined" && $.isArray(qxlInfo.get_CategorieTree) && qxlInfo.get_CategorieTree[3] ? qxlInfo.get_CategorieTree[3] : '') ,
+                                    'catgeorie5' : ( typeof qxlInfo != "undefined" && typeof qxlInfo.get_CategorieTree != "undefined" && $.isArray(qxlInfo.get_CategorieTree) && qxlInfo.get_CategorieTree[4] ? qxlInfo.get_CategorieTree[4] : '') ,
+                                    'pageName' : 'ArticlePage'
+                                });	
+                        });		
+                    </script>
                     <!-- Google Tag Manager Push End-->
                     <p></p>
                     <input id="it_shippingCost" type="hidden" value=""><input id="it_isCumulativeShipping" type="hidden" value="False"><input id="it_buynowprice" type="hidden" value="1500.0000"><input name="ctl00$ctl00$SiteContent$MasterContent$PurchaseReBid1$uxQuantity" type="text" value="1" id="uxQuantity" style="display: none"><input id="it_increment" type="hidden" value="10.0000"><fieldset class="bidding section" id="it_makeBid_box">
@@ -670,7 +699,7 @@ $('#newcatselect a').click(function(event) {
                 $(window).load(function(){Qxl.Ajax.RestorePageState();});$(document).ready(function() { RefreshControl[0]="TimeLeft1";RefreshControl[1]="TimeLeft1";RefreshControl[2]="AuctionDetails1";RefreshControl[3]="PurchaseBox1";RefreshControl[4]="BidsHistory1";});if($('#Tabs1').length!=0){$(document).ready(function(){Qxl.Ajax.SwitchOverlays('Tabs1', false,'ArticleLog1',false);Qxl.Ajax.SwitchOverlays('Tabs1', false,'BidsHistory1',false);Qxl.Ajax.SwitchOverlays('Tabs1', false,'QuestionsAndAnswers1',false);Qxl.Ajax.SwitchOverlays('Tabs1', false,'PaymentShippingGuarantee1',false);Qxl.Ajax.TabsSelect('Tabs1', 'ArticleDescription1');});};$('#MainImage1').find('#it_bigPicLink').click(function(e){e.preventDefault();});$('#MainImage1').find('#it_bigPic').click(function(){PopupImagesOverlay("Qxl.Ajax.SwitchOverlays('0', true,'ImagesOverlay1',false);")});$('#MainImage1').find('#it_zoom').click(function(){PopupImagesOverlay("Qxl.Ajax.SwitchOverlays('0', true,'ImagesOverlay1',false);")});BigImages["TOP Terrarium mit 2 Leopardengeckos"]="http://pics.ricardostatic.ch/2_740687234_Big/reptiles/top-terrarium-mit-2-leopardengeckos.jpg";$('#ThumbnailsImages1').find('#img0').click(function(){it_manageImg('http://pics.ricardostatic.ch/2_740687234_450/reptiles/top-terrarium-mit-2-leopardengeckos.jpg',"TOP Terrarium mit 2 Leopardengeckos",'first image','normal')});BigImages["TOP Terrarium mit 2 Leopardengeckos_2"]="http://pics.ricardostatic.ch/ImgUsers/2/7/740/74068/7406872/740687234_2_Big.jpg";$('#ThumbnailsImages1').find('#img1').click(function(){it_manageImg('http://pics.ricardostatic.ch/ImgUsers/2/7/740/74068/7406872/740687234_2_450.jpg',"TOP Terrarium mit 2 Leopardengeckos_2",'middle image','normal')});BigImages["TOP Terrarium mit 2 Leopardengeckos_3"]="http://pics.ricardostatic.ch/ImgUsers/2/7/740/74068/7406872/740687234_3_Big.jpg";$('#ThumbnailsImages1').find('#img2').click(function(){it_manageImg('http://pics.ricardostatic.ch/ImgUsers/2/7/740/74068/7406872/740687234_3_450.jpg',"TOP Terrarium mit 2 Leopardengeckos_3",'middle image','normal')});BigImages["TOP Terrarium mit 2 Leopardengeckos_4"]="http://pics.ricardostatic.ch/ImgUsers/2/7/740/74068/7406872/740687234_4_Big.jpg";$('#ThumbnailsImages1').find('#img3').click(function(){it_manageImg('http://pics.ricardostatic.ch/ImgUsers/2/7/740/74068/7406872/740687234_4_450.jpg',"TOP Terrarium mit 2 Leopardengeckos_4",'middle image','normal')});BigImages["TOP Terrarium mit 2 Leopardengeckos_5"]="http://pics.ricardostatic.ch/ImgUsers/2/7/740/74068/7406872/740687234_5_Big.jpg";$('#ThumbnailsImages1').find('#img4').click(function(){it_manageImg('http://pics.ricardostatic.ch/ImgUsers/2/7/740/74068/7406872/740687234_5_450.jpg',"TOP Terrarium mit 2 Leopardengeckos_5",'middle image','normal')});BigImages["TOP Terrarium mit 2 Leopardengeckos_6"]="http://pics.ricardostatic.ch/ImgUsers/2/7/740/74068/7406872/740687234_6_Big.jpg";$('#ThumbnailsImages1').find('#img5').click(function(){it_manageImg('http://pics.ricardostatic.ch/ImgUsers/2/7/740/74068/7406872/740687234_6_450.jpg',"TOP Terrarium mit 2 Leopardengeckos_6",'middle image','normal')});BigImages["TOP Terrarium mit 2 Leopardengeckos_7"]="http://pics.ricardostatic.ch/ImgUsers/2/7/740/74068/7406872/740687234_7_Big.jpg";$('#ThumbnailsImages1').find('#img6').click(function(){it_manageImg('http://pics.ricardostatic.ch/ImgUsers/2/7/740/74068/7406872/740687234_7_450.jpg',"TOP Terrarium mit 2 Leopardengeckos_7",'middle image','normal')});BigImages["TOP Terrarium mit 2 Leopardengeckos_8"]="http://pics.ricardostatic.ch/ImgUsers/2/7/740/74068/7406872/740687234_8_Big.jpg";$('#ThumbnailsImages1').find('#img7').click(function(){it_manageImg('http://pics.ricardostatic.ch/ImgUsers/2/7/740/74068/7406872/740687234_8_450.jpg',"TOP Terrarium mit 2 Leopardengeckos_8",'middle image','normal')});BigImages["TOP Terrarium mit 2 Leopardengeckos_9"]="http://pics.ricardostatic.ch/ImgUsers/2/7/740/74068/7406872/740687234_9_Big.jpg";$('#ThumbnailsImages1').find('#img8').click(function(){it_manageImg('http://pics.ricardostatic.ch/ImgUsers/2/7/740/74068/7406872/740687234_9_450.jpg',"TOP Terrarium mit 2 Leopardengeckos_9",'middle image','normal')});BigImages["TOP Terrarium mit 2 Leopardengeckos_10"]="http://pics.ricardostatic.ch/ImgUsers/2/7/740/74068/7406872/740687234_10_Big.jpg";$('#ThumbnailsImages1').find('#img9').click(function(){it_manageImg('http://pics.ricardostatic.ch/ImgUsers/2/7/740/74068/7406872/740687234_10_450.jpg',"TOP Terrarium mit 2 Leopardengeckos_10",'last image','normal')});Qxl.Controls['TimeLeft1'].ClientCode="Qxl.Types.Auction.getTimeLeft($('#TimeLeft1'),740687234,0,0,2);";$(document).ready(function() { Qxl.Ajax.Call('TimeLeft1');});
                 $('#BookmarkList1').find('#it_linkObserver').click(function(){Qxl.Types.PrepareLogin('LoginForm1',"Qxl.Ajax.SwitchOverlays('0', true,'LoginForm1',false);",'',"window.location.href='http://www.fr.ricardo.ch/MyPages/Favorite/ObserverAddOneItem.asp?IDO=740687234&IDC=42188&DateFin=08-26-2014';return false;","Qxl.Types.LoginError(\"LoginForm1\",\"Echec de la connexion. Veuillez essayer à nouveau en tenant compte des majuscules et des minuscules.\");");return false;});$('#BookmarkList1').find('#bL_item2_Link').click(function(){it_AddArticleToFavorites(740687234,true);return false;});$('#PurchaseBox1').find('input.btBid[type=button]').click(function(){Qxl.Types.PrepareLogin('LoginForm1',"Qxl.Ajax.SwitchOverlays('0', true,'LoginForm1',false);",'',"Qxl.Types.Auction.purchasePrepare('PurchaseConfirm1', 'uxAmount', 'uxQuantity', 'uxBuyType', 'PurchaseBox1', 'uxQuantity', 0, \"Qxl.Ajax.SwitchOverlays('0', true,'PurchaseConfirm1',false);\", 'bidQuantity');","Qxl.Types.LoginError(\"LoginForm1\",\"Echec de la connexion. Veuillez essayer à nouveau en tenant compte des majuscules et des minuscules.\");");return false;});$('#PurchaseBox1').find('input.btBuyNow[type=button]').click(function(){Qxl.Types.PrepareLogin('LoginForm1',"Qxl.Ajax.SwitchOverlays('0', true,'LoginForm1',false);",'',"Qxl.Types.Auction.purchasePrepare('PurchaseConfirm1', 'uxAmount', 'uxQuantity', 'uxBuyType', 'PurchaseBox1', 'uxQuantity', 1, \"Qxl.Ajax.SwitchOverlays('0', true,'PurchaseConfirm1',false);\", 'bidQuantity');","Qxl.Types.LoginError(\"LoginForm1\",\"Echec de la connexion. Veuillez essayer à nouveau en tenant compte des majuscules et des minuscules.\");");return false;});Qxl.Controls['PurchaseBox1'].ClientCode="Qxl.Types.Auction.getPurchaseBox($('#PurchaseBox1'),200000,740687234,0,0,\"reached\",\"not reached\",\"uxMaxQuantity\");";$('#AuctionDetails1').find('#it_delivery_link').click(function(){Qxl.Ajax.TabsSelect('Tabs1', 'PaymentShippingGuarantee1');return false;});Qxl.Controls['AuctionDetails1'].ClientCode="Qxl.Types.Auction.getAuctionDetails($('#AuctionDetails1'),740687234,2,200000,0,0,\"\");";$('#SellerLinks1').find('#toPreferredSellers').click(function(){Qxl.Types.PrepareLogin('LoginForm1',"Qxl.Ajax.SwitchOverlays('0', true,'LoginForm1',false);",'',"window.location.href='http://www.fr.ricardo.ch/Mypages/Favorite/PreferredSellers.asp?IDU=330315754';return false;","Qxl.Types.LoginError(\"LoginForm1\",\"Echec de la connexion. Veuillez essayer à nouveau en tenant compte des majuscules et des minuscules.\");");return false;});$('#ShareLinks1').find('li.it_lL_item1 a').click(function(){Qxl.Types.PrepareLogin('LoginForm1',"Qxl.Ajax.SwitchOverlays('0', true,'LoginForm1',false);",'',"PopupSuspiciousArticleOrverlay('ReportSuspiciousArticle1', 2, 3, \"Qxl.Ajax.SwitchOverlays('0', true,'ReportSuspiciousArticle1',false);\", 200000);","Qxl.Types.LoginError(\"LoginForm1\",\"Echec de la connexion. Veuillez essayer à nouveau en tenant compte des majuscules et des minuscules.\");");return false;return false;});$('#ShareLinks1').find('li.it_lL_item4 a').click(function(){Qxl.Types.PrepareLogin('LoginForm1',"Qxl.Ajax.SwitchOverlays('0', true,'LoginForm1',false);",'',"SendToMailToFriend(740687234, 42188);","Qxl.Types.LoginError(\"LoginForm1\",\"Echec de la connexion. Veuillez essayer à nouveau en tenant compte des majuscules et des minuscules.\");");return false;return false;});$('#Tabs1').find('#tab_ArticleDescription1 a').click(function(){Qxl.Ajax.TabsSelect('Tabs1', 'ArticleDescription1');return false;});$('#Tabs1').find('#tab_PaymentShippingGuarantee1 a').click(function(){Qxl.Ajax.TabsSelect('Tabs1', 'PaymentShippingGuarantee1');return false;});$('#Tabs1').find('#tab_QuestionsAndAnswers1 a').click(function(){Qxl.Ajax.TabsSelect('Tabs1', 'QuestionsAndAnswers1');return false;});$('#Tabs1').find('#tab_BidsHistory1 a').click(function(){Qxl.Ajax.TabsSelect('Tabs1', 'BidsHistory1');return false;});$('#QuestionsAndAnswers2').find('span.qna_button input[type=button]').click(function(){Qxl.Types.PrepareLogin('LoginForm1',"Qxl.Ajax.SwitchOverlays('0', true,'LoginForm1',false);",'',"Qxl.Types.Article.PopupQuestionAnswerForm($('#QuestionsAndAnswersForm1'),$('#MaxImages'),$('#QuestionNrField'),3);Qxl.Ajax.SwitchOverlays('0', true,'QuestionsAndAnswersForm1',false);","Qxl.Types.LoginError(\"LoginForm1\",\"Echec de la connexion. Veuillez essayer à nouveau en tenant compte des majuscules et des minuscules.\");");return false;});Qxl.Controls['PaymentShippingGuarantee1'].ClientCode="Qxl.Types.Auction.getPaymentShippingGuarantee($('#PaymentShippingGuarantee1'),740687234,0,0,2,200000);";$('#QuestionsAndAnswers1').find('span.qna_button input[type=button]').click(function(){Qxl.Types.PrepareLogin('LoginForm1',"Qxl.Ajax.SwitchOverlays('0', true,'LoginForm1',false);",'',"Qxl.Types.Article.PopupQuestionAnswerForm($('#QuestionsAndAnswersForm1'),$('#MaxImages'),$('#QuestionNrField'),3);Qxl.Ajax.SwitchOverlays('0', true,'QuestionsAndAnswersForm1',false);","Qxl.Types.LoginError(\"LoginForm1\",\"Echec de la connexion. Veuillez essayer à nouveau en tenant compte des majuscules et des minuscules.\");");return false;});$('#Showcase1').find('#it_toPreviousImg').click(function(){Qxl.Types.Article.SimilarArticlesScroll('Showcase1', -1)});$('#Showcase1').find('#it_toNextImg').click(function(){Qxl.Types.Article.SimilarArticlesScroll('Showcase1', 1)});Qxl.Controls['Showcase1'].ClientCode="Qxl.Types.Article.getShowcase($('#Showcase1'),200000,740687234,330315754,2,0,0,false,\"/ImgWeb/200000/\",\"\");";$(document).ready(function() { Qxl.Ajax.Call('Showcase1');});
                 $('#LoginForm1').find('.it_closeOverlay').click(function(){Qxl.Ajax.SwitchOverlays('0', false,'LoginForm1',false);;Qxl.Types.ResetLogin()});$('#LoginForm1').find('#uxNickName').click(function(){document.getElementById('tp_logErrMess').style.display='none'});$('#LoginForm1').find('uxPassword').click(function(){document.getElementById('tp_logErrMess').style.display='none'});$('#LoginForm1').find('#tp_countdownbyPass').click(function(){it_byPassTimer('LoginForm1', 'http://www.fr.ricardo.ch/Usability/CHFR/Captcha.ashx?w=144&h=71&c=o9RZbUFw0cTmf10O4MAbVQ==&bc=#ffffff');return false;});$('#LoginForm1').find('#it_btn_cancel').click(function(){Qxl.Ajax.SwitchOverlays('0', false,'LoginForm1',false);return false;});$('#PurchaseConfirm1').find('.it_closeOverlay').click(function(){Qxl.Ajax.SwitchOverlays('0', false,'PurchaseConfirm1',false);window.location=window.location.href;});$('#PurchaseConfirm1').find('#it_cancel_btn').click(function(){return Qxl.Ajax.SwitchOverlays('0', false,'PurchaseConfirm1',false);});$('#QuestionsAndAnswersForm1').find('.it_closeOverlay').click(function(){return Qxl.Ajax.SwitchOverlays('0', false,'QuestionsAndAnswersForm1',false);});$('#QuestionsAndAnswersForm1').find('#it_cancel_btn').click(function(){return Qxl.Ajax.SwitchOverlays('0', false,'QuestionsAndAnswersForm1',false);});$('#PurchaseReBid1').find('.it_closeOverlay').click(function(){Qxl.Ajax.SwitchOverlays('0', false,'PurchaseReBid1',false);window.location=window.location.href;});$('#PurchaseReBid1').find('input.btBid[type=button]').click(function(){Qxl.Types.PrepareLogin('LoginForm1',"Qxl.Ajax.SwitchOverlays('0', true,'LoginForm1',false);",'',"Qxl.Types.Auction.purchasePrepare('PurchaseConfirm1', 'uxAmount', 'uxQuantity', 'uxBuyType', 'PurchaseReBid1', 'uxQuantity', 0, \"Qxl.Ajax.SwitchOverlays('0', true,'PurchaseConfirm1',false);\", 'bidQuantity');","Qxl.Types.LoginError(\"LoginForm1\",\"Echec de la connexion. Veuillez essayer à nouveau en tenant compte des majuscules et des minuscules.\");");return false;});$('#PurchaseReBid1').find('input.btBuyNow[type=button]').click(function(){Qxl.Types.PrepareLogin('LoginForm1',"Qxl.Ajax.SwitchOverlays('0', true,'LoginForm1',false);",'',"Qxl.Types.Auction.purchasePrepare('PurchaseConfirm1', 'uxAmount', 'uxQuantity', 'uxBuyType', 'PurchaseReBid1', 'uxQuantity', 1, \"Qxl.Ajax.SwitchOverlays('0', true,'PurchaseConfirm1',false);\", 'bidQuantity');","Qxl.Types.LoginError(\"LoginForm1\",\"Echec de la connexion. Veuillez essayer à nouveau en tenant compte des majuscules et des minuscules.\");");return false;});Qxl.Controls['PurchaseReBid1'].ClientCode="Qxl.Types.Auction.getPurchaseReBid($('#PurchaseReBid1'),200000,740687234,0,0,\"reached\",\"not reached\",\"uxMaxQuantity\");";$('#PurchaseWin1').find('.it_closeOverlay').click(function(){Qxl.Ajax.SwitchOverlays('0', false,'PurchaseWin1',false);window.location=window.location.href;});$('#ImagesOverlay1').find('.it_closeOverlay').click(function(){return Qxl.Ajax.SwitchOverlays('0', false,'ImagesOverlay1',false);});$('#ImagesOverlay1').find('#tp_imageNext').click(function(){it_nextImage()});$('#ImagesOverlay1').find('#tp_imagePrevious').click(function(){it_previousImage()});$('#ReportSuspiciousArticle1').find('.it_closeOverlay').click(function(){Qxl.Ajax.SwitchOverlays('0', false,'ReportSuspiciousArticle1',false);;});$('#ReportSuspiciousArticle1').find('#it_cancel_btn').click(function(){return Qxl.Ajax.SwitchOverlays('0', false,'ReportSuspiciousArticle1',false);});//]]>
-</script>
+            </script>
         </form>
         <script src="~/Content/Ricardo_files/common.viewitem.ricardo.js" type="text/javascript"></script>
         <!--Start Footer-->
@@ -734,5 +763,3 @@ $('#newcatselect a').click(function(event) {
         }
     </style>
     <script type="text/javascript" src="~/Content/Ricardo_files/QxlFooter.js"></script>
-
-    
