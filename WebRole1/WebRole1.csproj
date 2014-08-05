@@ -75,10 +75,10 @@
     <Reference Include="Microsoft.WindowsAzure.Configuration, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.2.0.1.0\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Diagnostics, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+    <Reference Include="Microsoft.WindowsAzure.Diagnostics, Version=2.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.ServiceRuntime, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+    <Reference Include="Microsoft.WindowsAzure.ServiceRuntime, Version=2.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
       <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Storage, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -219,12 +219,60 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Ricardo_files\200000_default.css" />
+    <Content Include="Content\Ricardo_files\281759179.js" />
+    <Content Include="Content\Ricardo_files\740687234_10_prem.jpg" />
+    <Content Include="Content\Ricardo_files\740687234_2_prem.jpg" />
+    <Content Include="Content\Ricardo_files\740687234_3_prem.jpg" />
+    <Content Include="Content\Ricardo_files\740687234_4_450.jpg" />
+    <Content Include="Content\Ricardo_files\740687234_4_Big.jpg" />
+    <Content Include="Content\Ricardo_files\740687234_4_prem.jpg" />
+    <Content Include="Content\Ricardo_files\740687234_5_prem.jpg" />
+    <Content Include="Content\Ricardo_files\740687234_6_prem.jpg" />
+    <Content Include="Content\Ricardo_files\740687234_7_prem.jpg" />
+    <Content Include="Content\Ricardo_files\740687234_8_prem.jpg" />
+    <Content Include="Content\Ricardo_files\740687234_9_prem.jpg" />
+    <Content Include="Content\Ricardo_files\a2953.js" />
+    <Content Include="Content\Ricardo_files\ajaxtools.min.js" />
+    <Content Include="Content\Ricardo_files\analytics.js" />
+    <Content Include="Content\Ricardo_files\autocomplete.js" />
+    <Content Include="Content\Ricardo_files\ba.1.1.min.js" />
+    <Content Include="Content\Ricardo_files\close.gif" />
+    <Content Include="Content\Ricardo_files\common.global.post.ricardo.js" />
+    <Content Include="Content\Ricardo_files\common.global.pre.ricardo.js" />
+    <Content Include="Content\Ricardo_files\Common.min.js" />
+    <Content Include="Content\Ricardo_files\common.viewitem.ricardo.js" />
+    <Content Include="Content\Ricardo_files\conversion_async.js" />
+    <Content Include="Content\Ricardo_files\cookies.min.js" />
+    <Content Include="Content\Ricardo_files\default.css" />
+    <Content Include="Content\Ricardo_files\dis.htm" />
+    <Content Include="Content\Ricardo_files\fbds.js" />
+    <Content Include="Content\Ricardo_files\gtm.js" />
+    <Content Include="Content\Ricardo_files\jquery.min.js" />
+    <Content Include="Content\Ricardo_files\langs.aspx" />
+    <Content Include="Content\Ricardo_files\ld.js" />
+    <Content Include="Content\Ricardo_files\loading.gif" />
+    <Content Include="Content\Ricardo_files\logo.gif" />
+    <Content Include="Content\Ricardo_files\next.gif" />
+    <Content Include="Content\Ricardo_files\noimg_big.gif" />
+    <Content Include="Content\Ricardo_files\Overlays.min.js" />
+    <Content Include="Content\Ricardo_files\previous.gif" />
+    <Content Include="Content\Ricardo_files\Qxl.js" />
+    <Content Include="Content\Ricardo_files\QxlFooter.js" />
+    <Content Include="Content\Ricardo_files\QXL_Common_ViewItem.js" />
+    <Content Include="Content\Ricardo_files\retarget.htm" />
+    <Content Include="Content\Ricardo_files\top-terrarium-mit-2-leopardengeckos.jpg" />
+    <Content Include="Content\Ricardo_files\ViewItem.css" />
+    <Content Include="Content\Ricardo_files\xtcore.js" />
+    <Content Include="Content\Ricardo_files\zoom.gif" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Content\Ricardo_files\event" />
+    <Content Include="Content\Ricardo_files\seg" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

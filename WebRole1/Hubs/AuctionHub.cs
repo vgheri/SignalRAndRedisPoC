@@ -38,10 +38,5 @@ namespace WebRole1.Hubs
             // Save the dictionary
             return await CacheManager.Set(auctionNr.ToString(), auctionFollowersDictionary);
         }
-
-        public string NotifyBidPlaced()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

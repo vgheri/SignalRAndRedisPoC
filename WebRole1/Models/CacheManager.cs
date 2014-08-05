@@ -19,8 +19,16 @@ namespace WebRole1.Models
             {
                 if (connection == null)
                 {
-                    connection = ConnectionMultiplexer.Connect(
-                        "signalrandredispoc.redis.cache.windows.net:6379,ssl=false,password=");
+                    try
+                    {
+                        connection = ConnectionMultiplexer.Connect(
+                                        @"signalrandredispoc.redis.cache.windows.net,ssl=true,password=");
+                    }
+                    catch (Exception)
+                    {
+                        
+                        throw;
+                    }
                 }
                 return connection;
             }
@@ -32,7 +40,7 @@ namespace WebRole1.Models
             var cached = false;
             if (value != null)
             {
-                var redis = connection.GetDatabase();
+                var redis = Connection.GetDatabase();
                 var serializedValue = Serialize(value);
                 await redis.StringSetAsync(key, serializedValue);
                 cached = true;
@@ -42,7 +50,7 @@ namespace WebRole1.Models
 
         public static async Task<T> Get<T>(string key)
         {
-            var redis = connection.GetDatabase();
+            var redis = Connection.GetDatabase();
             var serializedValue = await redis.StringGetAsync(key);
             return Deserialize<T>(serializedValue);
         }
