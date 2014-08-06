@@ -73,7 +73,9 @@
                     selector.empty();
                 }, delay);
             }
-
+            $.connection.hub.error(function (error) {
+                console.log('SignalR error: ' + error)
+            });
             // Start the connection.
             $.connection.hub.start()
                 .done(function() {
