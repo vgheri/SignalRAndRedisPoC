@@ -10,12 +10,17 @@ namespace WebRole1.Hubs
 {
     public class AuctionHub : Hub
     {
+        private const string INFO = "info";
+        private const string SUCCESS= "success";
+        private const string WARNING= "warning";
+
         private static int auctionNr = 1;
         public async Task<bool> FollowAuction()
         {
             IDictionary<string, List<string>> auctionFollowersDictionary;
-            // Try get the dictionary associated with this auction
+            // Try get the dictionary associated with this auction            
             auctionFollowersDictionary = await CacheManager.Get<IDictionary<string, List<string>>>(auctionNr.ToString());
+           
             // Exists?
             if (auctionFollowersDictionary != null)
             {
@@ -30,6 +35,11 @@ namespace WebRole1.Hubs
 
                         //Notify Followers of a new comer
                         NotifyFollowers();
+                    }
+                    else
+                    {
+                        var signalRContext = GlobalHost.ConnectionManager.GetHubContext<AuctionHub>();
+                        signalRContext.Clients.Client(Context.ConnectionId).followedAuction(WARNING, "You already follow this auction");
                     }
                 }
             }
@@ -46,22 +56,30 @@ namespace WebRole1.Hubs
             return await CacheManager.Set(auctionNr.ToString(), auctionFollowersDictionary);
         }
 
-        private async void NotifyFollowers()
+        private void NotifyFollowers()
         {
             //Add this customer in the group of Follower. Then he will be able to get notification
-            await Groups.Add(Context.ConnectionId, "FOLLOW_AUCTION_" + auctionNr);
-            
+            Groups.Add(Context.ConnectionId, auctionNr.ToString());
+
             // Then inform clients that a this article is followed
             var signalRContext = GlobalHost.ConnectionManager.GetHubContext<AuctionHub>();
-            signalRContext.Clients.Group("FOLLOW_AUCTION_" + auctionNr).followedAuction(Context.ConnectionId, auctionNr);
+            var messageToOther = "A new customer " + Context.ConnectionId + " follow the auction " + auctionNr;
+            var message = "You are now following the auction " + auctionNr;
+
+            signalRContext.Clients.Group(auctionNr.ToString(), Context.ConnectionId).followedAuction(INFO, messageToOther);
+            signalRContext.Clients.Client(Context.ConnectionId).followedAuction(SUCCESS, message);
         }
 
 
         public void BidAuction(double amount)
         {
+            var messageToOther = "A new bid of " + amount + " has been placed on the auction: " + auctionNr;
+            var message = "You successfully placed a bid of " + amount;
+
             // Then inform clients that a this article is followed
             var signalRContext = GlobalHost.ConnectionManager.GetHubContext<AuctionHub>();
-            signalRContext.Clients.Group("FOLLOW_AUCTION_" + auctionNr, Context.ConnectionId).notifyBidPlaced(amount);
+            signalRContext.Clients.Group(auctionNr.ToString(), Context.ConnectionId).notifyBidPlaced(INFO, messageToOther);
+            signalRContext.Clients.Client(Context.ConnectionId).notifyBidPlaced(SUCCESS, message);
 
         }
     }

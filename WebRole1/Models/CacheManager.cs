@@ -12,23 +12,16 @@ namespace WebRole1.Models
     public class CacheManager
     {
         private static ConnectionMultiplexer connection;
-        
+
         public static ConnectionMultiplexer Connection
         {
             get
             {
                 if (connection == null)
                 {
-                    try
-                    {                        
-                        connection = ConnectionMultiplexer.Connect(
-                                        @"signalrandredispoc.redis.cache.windows.net,password=");
-                    }
-                    catch (Exception)
-                    {
-                        
-                        throw;
-                    }
+                    connection = ConnectionMultiplexer.Connect(
+                                    @"signalrandredispoc.redis.cache.windows.net,password=ourpassword");
+
                 }
                 return connection;
             }
