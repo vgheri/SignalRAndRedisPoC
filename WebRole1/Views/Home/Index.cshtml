@@ -58,11 +58,11 @@
                 autoClosingAlert(self, 5000, message);
             };
 
-            auction.client.followedAuction = function(customerId, auctionNr){
-                var self = $(".alert-success");                
+            auction.client.followedAuction = function(customerId, auctionNr) {
+                var self = $(".alert-success");
                 var message = 'A new customer ' + customerId + ' follow the auction ' + auctionNr + "\n";
                 autoClosingAlert(self, 5000, message);
-            }
+            };
 
             function autoClosingAlert(selector, delay, message) {
                 

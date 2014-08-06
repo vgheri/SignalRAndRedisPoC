@@ -50,7 +50,7 @@ namespace WebRole1.Hubs
         {
             //Add this customer in the group of Follower. Then he will be able to get notification
             await Groups.Add(Context.ConnectionId, "FOLLOW_AUCTION_" + auctionNr);
-
+            
             // Then inform clients that a this article is followed
             var signalRContext = GlobalHost.ConnectionManager.GetHubContext<AuctionHub>();
             signalRContext.Clients.Group("FOLLOW_AUCTION_" + auctionNr).followedAuction(Context.ConnectionId, auctionNr);

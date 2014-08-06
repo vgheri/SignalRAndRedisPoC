@@ -22,7 +22,7 @@ namespace WebRole1.Models
                     try
                     {                        
                         connection = ConnectionMultiplexer.Connect(
-                                        @"signalrandredispoc.redis.cache.windows.net,ssl=true,password=");
+                                        @"signalrandredispoc.redis.cache.windows.net,password=");
                     }
                     catch (Exception)
                     {
