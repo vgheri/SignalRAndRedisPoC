@@ -28,23 +28,23 @@ namespace WebRole1.Models
             private set { }
         }
 
-        public static async Task<bool> Set(string key, object value)
+        public static bool Set(string key, object value)
         {
             var cached = false;
             if (value != null)
             {
                 var redis = Connection.GetDatabase();
                 var serializedValue = Serialize(value);
-                await redis.StringSetAsync(key, serializedValue);
+                redis.StringSet(key, serializedValue);
                 cached = true;
             }
             return cached;
         }
 
-        public static async Task<T> Get<T>(string key)
+        public static T Get<T>(string key)
         {
             var redis = Connection.GetDatabase();
-            var serializedValue = await redis.StringGetAsync(key);
+            var serializedValue = redis.StringGet(key);
             return Deserialize<T>(serializedValue);
         }
 

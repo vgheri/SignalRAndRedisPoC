@@ -31,43 +31,43 @@ namespace WebRole1.Controllers
             return View();
         }
 
-        [HttpPost]
-        public async Task<ActionResult> Index(Bid bid)
-        {
-            // Get the ArticleStatus from Redis
-            var auctionStatus = await CacheManager.Get<ArticleStatus>(AUCTION_STATUS_CACHE_KEY);
-            // If there
-            if (auctionStatus != null)
-            {
-                // Check if the bid amount is valid, that is the user increased the article price
-                if (bid.Amount > auctionStatus.Price)
-                {
-                    // If yes, update and add this bid to the AuctionStatus.BidHistory
-                    auctionStatus.Price = bid.Amount;
-                    auctionStatus.BidHistory.Add(bid);
-                }
-                else
-                {
-                    ModelState.AddModelError("Amount", "The bid must be greater of the current price of the article.");
-                    return View();
-                }
-            }
-            // If not, create it
-            else
-            {
-                auctionStatus = new ArticleStatus
-                    {
-                        Price = bid.Amount,
-                        BidHistory = new List<Bid>() {bid}
-                    };
-            }
-            // Store the AuctionStatus in Redis
-            var saved = await CacheManager.Set(AUCTION_STATUS_CACHE_KEY, auctionStatus);
-            // Then inform clients that a new bid has been placed
-            var signalRContext = GlobalHost.ConnectionManager.GetHubContext<AuctionHub>();
-            signalRContext.Clients.All.notifyBidPlaced(bid.Amount);
-            return View();
-        }
+        //[HttpPost]
+        //public ActionResult Index(Bid bid)
+        //{
+        //    // Get the ArticleStatus from Redis
+        //    var auctionStatus = CacheManager.Get<ArticleStatus>(AUCTION_STATUS_CACHE_KEY);
+        //    // If there
+        //    if (auctionStatus != null)
+        //    {
+        //        // Check if the bid amount is valid, that is the user increased the article price
+        //        if (bid.Amount > auctionStatus.Price)
+        //        {
+        //            // If yes, update and add this bid to the AuctionStatus.BidHistory
+        //            auctionStatus.Price = bid.Amount;
+        //            auctionStatus.BidHistory.Add(bid);
+        //        }
+        //        else
+        //        {
+        //            ModelState.AddModelError("Amount", "The bid must be greater of the current price of the article.");
+        //            return View();
+        //        }
+        //    }
+        //    // If not, create it
+        //    else
+        //    {
+        //        auctionStatus = new ArticleStatus
+        //            {
+        //                Price = bid.Amount,
+        //                BidHistory = new List<Bid>() {bid}
+        //            };
+        //    }
+        //    // Store the AuctionStatus in Redis
+        //    var saved = CacheManager.Set(AUCTION_STATUS_CACHE_KEY, auctionStatus);
+        //    // Then inform clients that a new bid has been placed
+        //    var signalRContext = GlobalHost.ConnectionManager.GetHubContext<AuctionHub>();
+        //    signalRContext.Clients.All.notifyBidPlaced(bid.Amount);
+        //    return View();
+        //}
 
         public ActionResult About()
         {

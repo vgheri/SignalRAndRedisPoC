@@ -15,11 +15,11 @@ namespace WebRole1.Hubs
         private const string WARNING= "warning";
 
         private static int auctionNr = 1;
-        public async Task<bool> FollowAuction()
+        public void FollowAuction()
         {
             IDictionary<string, List<string>> auctionFollowersDictionary;
             // Try get the dictionary associated with this auction            
-            auctionFollowersDictionary = await CacheManager.Get<IDictionary<string, List<string>>>(auctionNr.ToString());
+            auctionFollowersDictionary = CacheManager.Get<IDictionary<string, List<string>>>(auctionNr.ToString());
            
             // Exists?
             if (auctionFollowersDictionary != null)
@@ -53,7 +53,7 @@ namespace WebRole1.Hubs
             }
 
             // Save the dictionary
-            return await CacheManager.Set(auctionNr.ToString(), auctionFollowersDictionary);
+            CacheManager.Set(auctionNr.ToString(), auctionFollowersDictionary);
         }
 
         private void NotifyFollowers()
