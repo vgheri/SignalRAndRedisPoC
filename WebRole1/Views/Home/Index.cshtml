@@ -67,6 +67,13 @@
             $.connection.hub.error(function (error) {
                 console.log('SignalR error: ' + error)
             });
+
+            // Not yet there. Need to think about it.
+            //$.connection.hub.disconnected(function(error) {
+            //    if (window.location.host !== 'localhost:81') {
+            //        auction.server.clientDisconnected();
+            //    }                
+            //});
             
             // Start the connection.
             $.connection.hub.start()

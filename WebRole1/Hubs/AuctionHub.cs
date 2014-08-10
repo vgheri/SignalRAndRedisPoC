@@ -18,7 +18,7 @@ namespace WebRole1.Hubs
         public void FollowAuction()
         {
             IDictionary<string, List<string>> auctionFollowersDictionary;
-            // Try get the dictionary associated with this auction            
+            // Try get the dictionary associated with this auction
             auctionFollowersDictionary = CacheManager.Get<IDictionary<string, List<string>>>(auctionNr.ToString());
            
             // Exists?
@@ -56,6 +56,30 @@ namespace WebRole1.Hubs
             CacheManager.Set(auctionNr.ToString(), auctionFollowersDictionary);
         }
 
+        // We need to take a step back and rethink how we identify a user.
+        //public void ClientDisconnected()
+        //{
+        //    IDictionary<string, List<string>> auctionFollowersDictionary;
+        //    // Try get the dictionary associated with this auction            
+        //    auctionFollowersDictionary = CacheManager.Get<IDictionary<string, List<string>>>(auctionNr.ToString());
+        //    // Exists?
+        //    if (auctionFollowersDictionary != null)
+        //    {
+        //        // Yes ==> Add connection id to the list
+        //        List<string> followers = null;
+        //        var found = auctionFollowersDictionary.TryGetValue(auctionNr.ToString(), out followers);
+        //        if (found)
+        //        {
+        //            if (followers.Contains(Context.ConnectionId))
+        //            {
+        //                followers.Remove(Context.ConnectionId);
+        //                // Save the dictionary
+        //                CacheManager.Set(auctionNr.ToString(), auctionFollowersDictionary);
+        //            }                    
+        //        }
+        //    }
+        //}
+
         private void NotifyFollowers()
         {
             //Add this customer in the group of Follower. Then he will be able to get notification
@@ -69,8 +93,7 @@ namespace WebRole1.Hubs
             signalRContext.Clients.Group(auctionNr.ToString(), Context.ConnectionId).followedAuction(INFO, messageToOther);
             signalRContext.Clients.Client(Context.ConnectionId).followedAuction(SUCCESS, message);
         }
-
-
+        
         public void BidAuction(double amount)
         {
             var messageToOther = "A new bid of " + amount + " has been placed on the auction: " + auctionNr;

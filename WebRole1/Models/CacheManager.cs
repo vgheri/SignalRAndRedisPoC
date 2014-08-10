@@ -20,7 +20,7 @@ namespace WebRole1.Models
                 if (connection == null)
                 {
                     connection = ConnectionMultiplexer.Connect(
-                                    @"signalrandredispoc.redis.cache.windows.net,password=ourpassword");
+                                    @"signalrandredispoc.redis.cache.windows.net,password=ourpassword,allowAdmin=true");
 
                 }
                 return connection;
@@ -47,6 +47,18 @@ namespace WebRole1.Models
             var serializedValue = redis.StringGet(key);
             return Deserialize<T>(serializedValue);
         }
+
+        public static void PurgeContent()
+        {
+            var endpoints = Connection.GetEndPoints(true);
+            foreach (var endpoint in endpoints)
+            {
+                var server = Connection.GetServer(endpoint);
+                server.FlushDatabase();
+            }
+        }
+
+        #region Utilities
 
         private static byte[] Serialize(object o)
         {
@@ -78,5 +90,7 @@ namespace WebRole1.Models
                 return result;
             }
         }
+
+        #endregion
     }
 }
