@@ -1,7 +1,67 @@
 ﻿@{
     ViewBag.Title = "About";
+    Layout = null;
 }
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Alterntive Page</title>
+        <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+        <script src="~/Scripts/jquery.signalR-2.1.1.min.js"></script>
+        <script src="~/signalr/hubs"></script>
+        <link href="~/Content/toastr.min.css" rel="stylesheet" />
+        <script src="~/Scripts/toastr.js"></script>
+        <script type="text/javascript" language="javascript">
+        $(document).ready(function () {
+            // hide alert message
+            $(".alert-success").hide();
+
+            // Reference the auto-generated proxy for the hub.
+            var auction = $.connection.auctionHub;
+
+            // Create a function that the hub can call back to display messages.
+            auction.client.notifyBidPlaced = function (type, message) {
+                //new Toast(type, 'toast-top-right', message);
+                toastr.info(message);
+            };
+
+            auction.client.followedAuction = function(type, message) {
+                new Toast(type,'toast-top-right', message);
+            };
+
+            $.connection.hub.error(function (error) {
+                console.log('SignalR error: ' + error)
+            });
+
+            // Not yet there. Need to think about it.
+            //$.connection.hub.disconnected(function(error) {
+            //    if (window.location.host !== 'localhost:81') {
+            //        auction.server.clientDisconnected();
+            //    }
+            //});
+
+            // Start the connection.
+            $.connection.hub.start()
+                .done(function() {
+                    $('#it_btnFollow').click(function() {
+                        auction.server.followAuction();
+                    });
+                    $('#it_btnBid').click(function() {
+                        var amount = $("#it_maxBid").val();
+                        auction.server.bidAuction(amount);
+                    });
+                })
+                .fail(function(err) {
+                    alert(err);
+                });
+        });
+        </script>
+    </head>
+</html>
+
 <h2>@ViewBag.Title.</h2>
 <h3>@ViewBag.Message</h3>
 
 <p>Use this area to provide additional information.</p>
+@Html.ActionLink("Go to pdp", "Index", "Home")
+

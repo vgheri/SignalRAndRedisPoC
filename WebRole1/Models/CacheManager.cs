@@ -13,29 +13,31 @@ namespace WebRole1.Models
     {
         private static ConnectionMultiplexer connection;
 
-        public static ConnectionMultiplexer Connection
-        {
-            get
+        static CacheManager()
+        {            
+            if (connection == null)
             {
-                if (connection == null)
-                {
-                    connection = ConnectionMultiplexer.Connect(
-                                    @"signalrandredispoc.redis.cache.windows.net,password=ourpassword,allowAdmin=true");
+                connection = ConnectionMultiplexer.Connect(
+                                @"signalrandredispoc.redis.cache.windows.net,password=ourpassword,allowAdmin=true");
 
-                }
-                return connection;
-            }
-            private set { }
+            }      
+        }
+        
+        // Defaults to 1 hour expiration date
+        public static bool Set(string key, object value)
+        {
+            var timeSpan = new TimeSpan(1, 0, 0);
+            return Set(key, value, timeSpan);
         }
 
-        public static bool Set(string key, object value)
+        public static bool Set(string key, object value, TimeSpan expirationDate)
         {
             var cached = false;
             if (value != null)
             {
-                var redis = Connection.GetDatabase();
+                var redis = connection.GetDatabase();
                 var serializedValue = Serialize(value);
-                redis.StringSet(key, serializedValue);
+                redis.StringSet(key, serializedValue, expirationDate);                
                 cached = true;
             }
             return cached;
@@ -43,17 +45,17 @@ namespace WebRole1.Models
 
         public static T Get<T>(string key)
         {
-            var redis = Connection.GetDatabase();
+            var redis = connection.GetDatabase();
             var serializedValue = redis.StringGet(key);
             return Deserialize<T>(serializedValue);
         }
 
         public static void PurgeContent()
         {
-            var endpoints = Connection.GetEndPoints(true);
+            var endpoints = connection.GetEndPoints(true);
             foreach (var endpoint in endpoints)
             {
-                var server = Connection.GetServer(endpoint);
+                var server = connection.GetServer(endpoint);
                 server.FlushDatabase();
             }
         }

@@ -13,6 +13,7 @@ namespace WebRole1
             GlobalHost.DependencyResolver.UseRedis("signalrandredispoc.redis.cache.windows.net", 6379,
                 "ourpassword", "signalrandredispoc");
             app.MapSignalR(hubConfiguration);
+            //ConfigureAuth(app);
         }
     }
 }
