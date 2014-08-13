@@ -1,0 +1,113 @@
+/* All pages */
+body{
+ background-image:none;
+ width:100%;
+ margin:0;
+ padding:0;
+ float:none}
+.n_PageWidth_large{
+ width:100%}
+.noprint,#loginzone,
+.n_MainTitLeft_chan1,.n_MainTitLeft_chan2,.n_MainTitRight_chan1,.n_MainTitRight_chan2,
+.n_MainTitBuyLeft_chan1,.n_MainTitBuyLeft_chan2,.n_MainTitBuyRight_chan1,.n_MainTitBuyRight_chan2,
+.n_TabLeft_chan1,.n_TabLeft_chan2,.n_TabRight_chan1,.n_TabRight_chan2{
+ display:none}
+.n_ReturnTop{
+ color:#ffffff}
+.n_ReturnTop a:link,.n_ReturnTop a:visited,.n_ReturnTop img{
+display:none}
+#logoprint{
+ display:block;
+ margin-top:15px}
+.n_MainTitCenter_chan1,.n_MainTitCenter_chan2,
+.n_MainTitBuyCenter_chan1,.n_MainTitBuyCenter_chan2,
+.n_TabCenter_chan1,.n_TabCenter_chan2,
+.n_ListTit_chan1,.n_ListTit_chan2{
+ background-image:none;
+ background-color:#ffffff;
+ border:1px solid #aaaaaa;
+ color:#000000;
+ padding:5px}
+.n_MainTitCenter_chan1,.n_MainTitCenter_chan2,
+.n_MainTitBuyCenter_chan1,.n_MainTitBuyCenter_chan2{
+ font-size:13px}
+.n_ThNailDesc{
+ background-image:none;
+ border-top:0;
+ padding:5px}
+.n_caution{
+ background-color:#ffffff;
+ border:1px solid #dddddd;
+ color:#000000}
+
+
+/* View Item (all channels)*/
+#aucwatch1 {
+ display:none}
+
+
+/* View Item (classifieds only) */
+#pics{
+ display:block;
+ text-align:center}
+#pics img {
+ margin:15px}
+
+
+/* Receipt (collection in person) */
+#Receipt{
+ font-family:Arial,Helvetica;
+ font-size:12px}
+#Receipt #BuyerAddress,#Receipt #SellerAddress{
+ line-height:1.4em}
+#Receipt p{
+ margin:0;
+ padding:0 0 15px 0}
+#Receipt #Date{
+ padding:30px 0}
+#Receipt h1{
+ font-size:20px;
+ margin:0;
+ padding:15px 0 5px 0;
+ font-weight:bold}
+#Receipt #ArticleInfo{
+ font-size:14px;
+ padding-bottom:30px;
+ font-weight:bold}
+#Receipt h2{
+ font-size:14px;
+ margin:0;
+ padding:30px 0 5px 0;
+ font-weight:bold;
+ text-decoration:underline}
+#Receipt table{
+ border:0;
+ border-collapse:collapse;
+ margin:15px 0 30px 0}
+#Receipt tr{
+ vertical-align:middle}
+#Receipt th{
+ text-align:left;
+ height:25px;
+ font-weight:bold;
+ text-decoration:underline}
+#Receipt table.Main{
+ margin-bottom:45px;
+ width:100%}
+#Receipt table.Main td{
+ padding:5px 10px 5px 0}
+#Receipt tr.TotalAmount td{
+ border-bottom:1px solid #000000;
+ border-top:1px solid #000000;
+ font-weight:bold}
+#Receipt .Amount{
+ padding-right:10px;
+ text-align:right;
+ white-space:nowrap}
+#Receipt table.Secondary td{
+ height:30px;
+ padding-right:5px}
+#Receipt td.InputCell{
+ width:95%;
+ text-decoration:underline;
+ white-space:nowrap}
