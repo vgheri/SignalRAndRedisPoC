@@ -17,9 +17,10 @@ namespace WebRole1.Hubs
         private static int auctionNr = 1;
         public void FollowAuction()
         {
+            var groupName = "AuctionGroup_" + auctionNr.ToString();
             IDictionary<string, List<string>> auctionFollowersDictionary;
             // Try get the dictionary associated with this auction
-            auctionFollowersDictionary = CacheManager.Get<IDictionary<string, List<string>>>(auctionNr.ToString());
+            auctionFollowersDictionary = CacheManager.Get<IDictionary<string, List<string>>>(groupName);
            
             // Exists?
             if (auctionFollowersDictionary != null)
@@ -47,7 +48,6 @@ namespace WebRole1.Hubs
                 auctionFollowersDictionary.Add(auctionNr.ToString(), new List<string> { Context.ConnectionId });
             }
             //Add this customer in the group of Follower. Then he will be able to get notification
-            var groupName = "AuctionGroup_" + auctionNr.ToString();
             Groups.Add(Context.ConnectionId, groupName);
             string name = GetUser();
             AddGroupToUser(name, groupName);
@@ -57,17 +57,6 @@ namespace WebRole1.Hubs
             Clients.Caller.followedAuction(SUCCESS, "You are now following this auction");
             NotifyGroup(groupName, new string[] { Context.ConnectionId }, 
                 "A new customer follows this auction");
-        }
-
-        private void NotifyFollowers()
-        {            
-            // Then inform clients that a this article is followed
-            var signalRContext = GlobalHost.ConnectionManager.GetHubContext<AuctionHub>();
-            var messageToOther = "A new customer " + Context.ConnectionId + " follow the auction " + auctionNr;
-            var message = "You are now following the auction " + auctionNr;
-
-            signalRContext.Clients.Group(auctionNr.ToString(), Context.ConnectionId).followedAuction(INFO, messageToOther);
-            signalRContext.Clients.Client(Context.ConnectionId).followedAuction(SUCCESS, message);
         }
 
         private void NotifyGroup(string groupName, string[] exclusionList, string message)
@@ -85,6 +74,7 @@ namespace WebRole1.Hubs
             var groupName = "AuctionGroup_" + auctionNr.ToString();
             var signalRContext = GlobalHost.ConnectionManager.GetHubContext<AuctionHub>();
             signalRContext.Clients.Group(groupName, Context.ConnectionId).notifyBidPlaced(INFO, messageToOther);
+            //NotifyGroup(groupName, new string[] { Context.ConnectionId }, messageToOther);
             Clients.Caller.notifyBidPlaced(SUCCESS, message);
 
         }
