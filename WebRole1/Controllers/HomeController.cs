@@ -31,6 +31,11 @@ namespace WebRole1.Controllers
             return View();
         }
 
+        public ActionResult Listing()
+        {           
+            return View();
+        }
+
         //[HttpPost]
         //public ActionResult Index(Bid bid)
         //{
