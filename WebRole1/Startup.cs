@@ -11,7 +11,7 @@ namespace WebRole1
             var hubConfiguration = new HubConfiguration();
             hubConfiguration.EnableDetailedErrors = true;
             GlobalHost.DependencyResolver.UseRedis("signalrandredispoc.redis.cache.windows.net", 6379,
-                "ourpassword", "signalrandredispoc");
+                "y2K80dd//9d1bgmu+qQfj2JGq+9qOtR8vj/Q1pMn1gE=", "signalrandredispoc");
             app.MapSignalR(hubConfiguration);
             //ConfigureAuth(app);
         }

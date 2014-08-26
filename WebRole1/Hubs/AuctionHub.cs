@@ -15,6 +15,8 @@ namespace WebRole1.Hubs
         private const string WARNING= "warning";
 
         private static int auctionNr = 1;
+        private static string auctionTitle = "TOP Terrarium mit 2 Leopardengeckos";
+
         public void FollowAuction()
         {
             var groupName = "AuctionGroup_" + auctionNr.ToString();
@@ -55,8 +57,8 @@ namespace WebRole1.Hubs
             CacheManager.Set(groupName, auctionFollowersDictionary);
 
             Clients.Caller.followedAuction(SUCCESS, "You are now following this auction");
-            NotifyGroup(groupName, new string[] { Context.ConnectionId }, 
-                "A new customer follows this auction");
+            NotifyGroup(groupName, new string[] { Context.ConnectionId },
+                "A new customer follows auction <a href='http://localhost:4884/'>" + auctionTitle + "</a>");
         }
 
         private void NotifyGroup(string groupName, string[] exclusionList, string message)
@@ -67,7 +69,7 @@ namespace WebRole1.Hubs
         
         public void BidAuction(double amount)
         {
-            var messageToOther = "A new bid of " + amount + " has been placed on the auction: " + auctionNr;
+            var messageToOther = "A new bid of " + amount + " has been placed on the auction: <a href='http://localhost:4884/'>" + auctionTitle + "</a>  " + auctionNr;
             var message = "You successfully placed a bid of " + amount;
 
             // Then inform clients that a this article is followed
