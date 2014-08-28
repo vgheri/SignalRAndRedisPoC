@@ -20,41 +20,32 @@ namespace WebRole1.Hubs
         public void FollowAuction()
         {
             var groupName = "AuctionGroup_" + auctionNr.ToString();
-            IDictionary<string, List<string>> auctionFollowersDictionary;
-            // Try get the dictionary associated with this auction
-            auctionFollowersDictionary = CacheManager.Get<IDictionary<string, List<string>>>(groupName);
-           
+            // Try get the list of followers associated with this auction
+            var followers = CacheManager.Get<List<string>>(groupName);
             // Exists?
-            if (auctionFollowersDictionary != null)
-            {
-                // Yes ==> Add connection id to the list
-                List<string> followers = null;
-                var found = auctionFollowersDictionary.TryGetValue(auctionNr.ToString(), out followers);
-                if (found)
+            if (followers != null)
+            {               
+                if (!followers.Contains(Context.ConnectionId))
                 {
-                    if (!followers.Contains(Context.ConnectionId))
-                    {
-                        followers.Add(Context.ConnectionId);
-                    }
-                    else
-                    {
-                        var signalRContext = GlobalHost.ConnectionManager.GetHubContext<AuctionHub>();
-                        signalRContext.Clients.Client(Context.ConnectionId).followedAuction(WARNING, "You already follow this auction");
-                        return;
-                    }
+                    followers.Add(Context.ConnectionId);
                 }
+                else
+                {
+                    var signalRContext = GlobalHost.ConnectionManager.GetHubContext<AuctionHub>();
+                    signalRContext.Clients.Client(Context.ConnectionId).followedAuction(WARNING, "You already follow this auction");
+                    return;
+                }                
             }
             else // No ==> Create the list and add the connection id to the list
             {
-                auctionFollowersDictionary = new Dictionary<string, List<string>>();
-                auctionFollowersDictionary.Add(auctionNr.ToString(), new List<string> { Context.ConnectionId });
+                followers = new List<string> { Context.ConnectionId };
             }
             //Add this customer in the group of Follower. Then he will be able to get notification
             Groups.Add(Context.ConnectionId, groupName);
             string name = GetUser();
             AddGroupToUser(name, groupName);
-            // Save the dictionary
-            CacheManager.Set(groupName, auctionFollowersDictionary);
+            // Save the list
+            CacheManager.Set(groupName, followers);
 
             Clients.Caller.followedAuction(SUCCESS, "You are now following this auction");
             NotifyGroup(groupName, new string[] { Context.ConnectionId },
@@ -95,6 +86,12 @@ namespace WebRole1.Hubs
                 foreach (var group in groups)
                 {
                     Groups.Add(Context.ConnectionId, group);
+                    var followers = CacheManager.Get<List<string>>(group);
+                    if (followers != null && !followers.Contains(Context.ConnectionId))
+                    {
+                        followers.Add(Context.ConnectionId);
+                        CacheManager.Set(group, followers);
+                    }
                 }
             }
             return base.OnConnected();
@@ -107,7 +104,10 @@ namespace WebRole1.Hubs
             var groups = GetGroupsForUser(name);
             if (groups != null && groups.Count > 0)
             {
-                groups.Add(groupName);
+                if (!groups.Contains(groupName))
+                {
+                    groups.Add(groupName);
+                }
             }
             else
             {

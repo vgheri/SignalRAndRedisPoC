@@ -18,7 +18,7 @@ namespace WebRole1.Models
             if (connection == null)
             {
                 connection = ConnectionMultiplexer.Connect(
-                                @"signalrandredispoc.redis.cache.windows.net,password=y2K80dd//9d1bgmu+qQfj2JGq+9qOtR8vj/Q1pMn1gE=,allowAdmin=true");
+                                @"signalrandredispoc.redis.cache.windows.net,password=ourpassword,allowAdmin=true");
 
             }      
         }
