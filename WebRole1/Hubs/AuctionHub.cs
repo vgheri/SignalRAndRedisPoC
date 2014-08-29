@@ -49,18 +49,18 @@ namespace WebRole1.Hubs
 
             Clients.Caller.followedAuction(SUCCESS, "You are now following this auction");
             NotifyGroup(groupName, new string[] { Context.ConnectionId },
-                "A new customer follows auction <a href='http://localhost:4884/'>" + auctionTitle + "</a>");
+                "A new customer follows auction <a href='/'>" + auctionTitle + "</a>");
         }
 
         private void NotifyGroup(string groupName, string[] exclusionList, string message)
         {
             var signalRContext = GlobalHost.ConnectionManager.GetHubContext<AuctionHub>();            
-            signalRContext.Clients.Group(auctionNr.ToString(), exclusionList).followedAuction(INFO, message);
+            signalRContext.Clients.Group(groupName, exclusionList).followedAuction(INFO, message);
         }
         
         public void BidAuction(double amount)
         {
-            var messageToOther = "A new bid of " + amount + " has been placed on the auction: <a href='http://localhost:4884/'>" + auctionTitle + "</a>  " + auctionNr;
+            var messageToOther = "A new bid of " + amount + " has been placed on the auction: <a href='/'>" + auctionTitle + "</a>  " + auctionNr;
             var message = "You successfully placed a bid of " + amount;
 
             // Then inform clients that a this article is followed
